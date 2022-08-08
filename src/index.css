@@ -16,3 +16,9 @@ code {
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+/*body{
+    background-color: #2d2d2d;
+}*/
+.css-j57col-MuiButtonBase-root-MuiTab-root.Mui-selected{
+    color: #A27B5C;
+}
