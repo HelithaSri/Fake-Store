@@ -178,7 +178,7 @@ class Product extends Component {
                                           sx={{height: '150px'}}
                                           justifyContent={'space-between'}>
                                         <Grid container flexGrow={1} item
-                                              className={'border w-28 bg-contain bg-center bg-no-repeat'}
+                                              className={'border w-28 bg-contain bg-center bg-no-repeat rounded-md'}
                                               style={{backgroundImage: `url(${this.state.img})`}}
                                         >
                                         </Grid>
