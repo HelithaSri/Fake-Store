@@ -53,7 +53,7 @@ class LoginAdmin extends Component {
         direction={"row"}
         justifyContent="center"
         alignItems="stretch"
-        className="h-screen min-h-min w-screen p-0 m-0 bg-loginAdmin-img bg-no-repeat bg-bottoms bg-cover bg-center bg-blend-overlay   bg-stone-800"
+        className="h-screen min-h-min w-screen p-0 m-0 bg-login-img bg-no-repeat bg-bottoms bg-cover bg-center bg-blend-overlay bg-stone-700"
       >
         <Grid
           container
@@ -101,11 +101,6 @@ class LoginAdmin extends Component {
                   type={"password"}
                   className={[classes.textField, "w-full"]}
                 />
-
-                <Typography variant="p" className="text-slate-500 -mt-3">
-                  Frogot password ?
-                </Typography>
-
                 <Link to="dashboard">
                   <CommonButton
                     size="large"
@@ -120,7 +115,7 @@ class LoginAdmin extends Component {
                 </Link>
 
                 <Typography variant="p" className={'text-white'}>
-                  You are not a member? <Link to={'/register'}> Register Now</Link>
+                  You are not a member? <Link to={'/register'} className={'font-semibold'}> Register Now</Link>
                 </Typography>
                 
               </Grid>

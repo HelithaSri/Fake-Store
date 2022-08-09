@@ -5,7 +5,11 @@ module.exports = {
   ],
   important: '#root',
   theme: {
-    extend: {},
+    extend: {
+      backgroundImage:{
+        'login-img':"url('assets/images/background/loginBack.jpg')"
+      }
+    },
   },
   plugins: [],
 }
