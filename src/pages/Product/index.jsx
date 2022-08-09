@@ -12,75 +12,56 @@ import ProductService from "../../service/ProductService";
 
 class Product extends Component {
 
-    top100Films = [
-        {label: 'The Shawshank Redemption', year: 1994},
-        {label: 'The Godfather', year: 1972},
-    ]
-
     constructor(props) {
         super(props);
         this.state = {
             formData: {
-                title: '',
-                category: '',
-                price: '',
-                description: ''
-            },
-            categoryData: [],
+                title: '', category: '', price: '', description: ''
+            }, categoryData: [],
 
-            alert: false,
-            message: '',
-            severity: '',
+            alert: false, message: '', severity: '',
 
-            file: null,
-            img: null
+            file: null, img: null
         };
     }
 
-    clearFields=()=>{
+    clearFields = () => {
         this.setState({
             formData: {
-                title: '',
-                category: '',
-                price: '',
-                description: ''
-            },
-            file: null,
-            img: null
+                title: '', category: '', price: '', description: ''
+            }, file: null, img: null
         })
+    }
+
+    fetchCategoryForSelect = async () => {
+        const res = await ProductService.fetchCategory();
+        if (res.status === 200) {
+            this.setState({
+                categoryData: res.data
+            })
+        }
+        console.log('cat', this.state.categoryData)
     }
 
     handleSubmit = async () => {
         console.log("hi")
         if (this.state.file == null) {
             this.setState({
-                alert: true,
-                message: "Please Select Image",
-                severity: 'error'
+                alert: true, message: "Please Select Image", severity: 'error'
             })
             return;
         }
         let formDate = this.state.formData
 
-        /*let data = new FormData();
-        data.append("product", JSON.stringify(formDate));
-        data.append("myFile", this.state.file)
-        console.log(this.state.file)
-        console.log(this.state.file.name)*/
-
         let res = await ProductService.addProduct(formDate)
         if (res.status === 200) {
             this.setState({
-                alert: true,
-                message: 'Product Saved!',
-                severity: 'success'
+                alert: true, message: 'Product Saved!', severity: 'success'
             })
             this.clearFields();
         } else {
             this.setState({
-                alert: true,
-                message: res.message,
-                severity: 'error'
+                alert: true, message: res.message, severity: 'error'
             })
         }
 
@@ -122,10 +103,13 @@ class Product extends Component {
         })
     }
 
+    async componentDidMount() {
+        await this.fetchCategoryForSelect();
+    }
+
     render() {
         const {classes} = this.props;
-        return (
-            <>
+        return (<>
                 <Grid container justifyContent={"center"} className={'h-screen bg-red-000 pt-28 px-10'}>
                     <Grid container item direction={"column"} xs={12} gap={5} className={'bg-red-000'}>
                         <Grid item container justifyContent={"center"}>
@@ -162,8 +146,10 @@ class Product extends Component {
                                             className="w-full"
                                             style={{minWidth: '100%'}}
                                         >
-                                            <MenuItem key={"Auto"} value={"Auto"}>Auto</MenuItem>
-                                            <MenuItem key={"Manual"} value={"Manual"}>Manual</MenuItem>
+                                            {this.state.categoryData.map((option) => (
+                                                <MenuItem key={option} value={option}>
+                                                    {option}
+                                                </MenuItem>))}
                                         </TextValidator>
 
                                         <TextValidator
@@ -188,7 +174,8 @@ class Product extends Component {
                                             multiline
                                         />
                                     </Grid>
-                                    <Grid container direction={'row'} xs={12} sm={10} md={6} gap={2} sx={{height: '150px'}}
+                                    <Grid container direction={'row'} xs={12} sm={10} md={6} gap={2}
+                                          sx={{height: '150px'}}
                                           justifyContent={'space-between'}>
                                         <Grid container flexGrow={1} item
                                               className={'border w-28 bg-contain bg-center bg-no-repeat'}
@@ -245,8 +232,7 @@ class Product extends Component {
                     severity={this.state.severity}
                     variant={'filled'}
                 />
-            </>
-        );
+            </>);
     }
 }
 
