@@ -19,7 +19,7 @@ class Cart extends Component {
         this.state = {
             formData: {
                 username: '',
-                category: '',
+                category: [],
                 selectedDate:new Date(),
                 qty: '',
 
@@ -87,7 +87,7 @@ class Cart extends Component {
                 alert: true, message: res.message, severity: 'error'
             })
         }
-
+        console.log("submit",this.state.formData)
     };
 
     handleChange = (event) => {
