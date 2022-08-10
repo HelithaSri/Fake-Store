@@ -17,49 +17,70 @@ class Register extends Component {
         super(props);
         this.state = {
             formData: {
-                username: '',
-                category: [],
-                selectedDate:new Date(),
-                qty: '',
+                email: "",
+                username: "",
+                password: "",
+                name: {
+                    firstname: "",
+                    lastname: ""
+                },
+                address: {
+                    city: "",
+                    street: "",
+                    number: '',
+                    zipcode: "",
+                    geolocation: {
+                        lat: "",
+                        long: ""
+                    }
+                },
+                phone: ""
 
             },
-            categoryData: [],
-            userData: [],
-
             alert: false,
             message: '',
             severity: '',
             columns: [
                 {
-                    field: "driverId",
-                    headerName: "Firste Name",
-                    width: 200,
+                    field: "firstName",
+                    headerName: "First Name",
+                    width: 175,
+                    renderCell:(params)=>{
+                        return(
+                            <>
+                                <span>{params.row.name.firstname}</span>
+                            </>
+                        )
+                    }
                 },
-
                 {
-                    field: "name",
+                    field: "lastName",
                     headerName: "Last Name",
-                    width: 200,
+                    width: 175,
+                    renderCell:(params)=>{
+                        return(
+                            <>
+                                <span>{params.row.name.lastname}</span>
+                            </>
+                        )
+                    }
                 },
-
                 {
-                    field: "address",
+                    field: "email",
                     headerName: "Email",
                     width: 200,
                     sortable: false,
                 },
-
                 {
-                    field: "mobileNo",
+                    field: "username",
                     headerName: "User Name",
-                    width: 200,
+                    width: 150,
                     sortable: false,
                 },
-
                 {
                     field: "password",
                     headerName: "Password",
-                    width: 200,
+                    width: 125,
                     sortable: false,
                     renderCell:(params) => {
                         return(
@@ -69,91 +90,114 @@ class Register extends Component {
                         )
                     }
                 },
-
                 {
-                    field: "Zip Code",
-                    headerName: "Zip Code",
-                    width: 200,
-                    sortable: false,
-                },
-                {
-                    field: "Street",
-                    headerName: "Street",
-                    width: 200,
-                    sortable: false,
-                },
-                {
-                    field: "Long Value",
-                    headerName: "Long Value",
-                    width: 200,
-                    sortable: false,
-                },
-                {
-                    field: "City",
-                    headerName: "City",
-                    width: 200,
-                    sortable: false,
-                },
-                {
-                    field: "Street No",
-                    headerName: "Street No",
-                    width: 200,
-                    sortable: false,
-                },
-                {
-                    field: "Lat Value",
-                    headerName: "Lat Value",
-                    width: 200,
-                    sortable: false,
-                },
-                {
-                    field: "Mobile No",
+                    field: "phone",
                     headerName: "Mobile No",
-                    width: 200,
+                    width: 150,
                     sortable: false,
-                }
+                },
+                {
+                    field: "city",
+                    headerName: "City",
+                    width: 150,
+                    renderCell:(params) => {
+                        return(
+                            <>
+                                <span>{params.row.address.city}</span>
+                            </>
+                        )
+                    }
+                },
+                {
+                    field: "street",
+                    headerName: "Street",
+                    width: 175,
+                    renderCell:(params) => {
+                        return(
+                            <>
+                                <span>{params.row.address.street}</span>
+                            </>
+                        )
+                    }
+                },
+                {
+                    field: "streetNo",
+                    headerName: "Street No",
+                    width: 100,
+                    renderCell:(params) => {
+                        return(
+                            <>
+                                <span>{params.row.address.number}</span>
+                            </>
+                        )
+                    }
+                },
+                {
+                    field: "zipCode",
+                    headerName: "Zip Code",
+                    width: 125,
+                    renderCell:(params) => {
+                        return(
+                            <>
+                                <span>{params.row.address.zipcode}</span>
+                            </>
+                        )
+                    }
+                },
+                {
+                    field: "latValue",
+                    headerName: "Lat Value",
+                    width: 125,
+                    renderCell:(params) => {
+                        return(
+                            <>
+                                <span>{params.row.address.geolocation.lat}</span>
+                            </>
+                        )
+                    }
+                },
+                {
+                    field: "longValue",
+                    headerName: "Long Value",
+                    width: 125,
+                    renderCell:(params) => {
+                        return(
+                            <>
+                                <span>{params.row.address.geolocation.long}</span>
+                            </>
+                        )
+                    }
+                },
+
             ],
+            userData:[],
         };
     }
 
     clearFields = () => {
         this.setState({
             formData: {
-                username: '',
-                category: '',
-                selectedDate:new Date(),
-                qty: '',
+                email: "",
+                username: "",
+                password: "",
+                name: {
+                    firstname: "",
+                    lastname: ""
+                },
+                address: {
+                    city: "",
+                    street: "",
+                    number: '',
+                    zipcode: "",
+                    geolocation: {
+                        lat: "",
+                        long: ""
+                    }
+                },
+                phone: ""
 
-            }, file: null, img: null
+            }
         })
-    }
-
-    fetchCategoryForSelect = async () => {
-        const res = await ProductService.fetchCategory();
-        if (res.status === 200) {
-            this.setState({
-                categoryData: res.data
-            })
-        }
-        console.log('cat', this.state.categoryData)
-    }
-
-    fetchUsernameForSelect = async () => {
-        const res = await UserService.fetchUsers();
-        const userData = [];
-        if (res.status === 200) {
-            res.data.map((value)=>{
-                let user={
-                    id:value.id,
-                    userName:value.username,
-                }
-                userData.push(user)
-            })
-            this.setState({
-                userData: userData
-            })
-        }
-        console.log('user', this.state.userData)
     }
 
     handleSubmit = async () => {
@@ -176,19 +220,64 @@ class Register extends Component {
     handleChange = (event) => {
         let id = event.target.name;
         switch (id) {
+            case "firstname":
+                const firstname = event.target.value;
+                this.setState(Object.assign(this.state.formData.name, {firstname: firstname}));
+                break;
+
+            case "lastname":
+                const lastname = event.target.value;
+                this.setState(Object.assign(this.state.formData.name, {lastname: lastname}));
+                break;
+
+            case "email":
+                const email = event.target.value;
+                this.setState(Object.assign(this.state.formData, {email: email}));
+                break;
+
             case "username":
                 const username = event.target.value;
                 this.setState(Object.assign(this.state.formData, {username: username}));
                 break;
 
-            case "category":
-                const category = event.target.value;
-                this.setState(Object.assign(this.state.formData, {category: category}));
+            case "password":
+                const password = event.target.value;
+                this.setState(Object.assign(this.state.formData, {password: password}));
                 break;
 
-            case "qty":
-                const qty = event.target.value;
-                this.setState(Object.assign(this.state.formData, {qty: qty}));
+            case "zipcode":
+                const zipcode = event.target.value;
+                this.setState(Object.assign(this.state.formData.address, {zipcode: zipcode}));
+                break;
+
+            case "street":
+                const street = event.target.value;
+                this.setState(Object.assign(this.state.formData.address, {street: street}));
+                break;
+
+            case "long":
+                const long = event.target.value;
+                this.setState(Object.assign(this.state.formData.address.geolocation, {long: long}));
+                break;
+
+            case "city":
+                const city = event.target.value;
+                this.setState(Object.assign(this.state.formData.address, {city: city}));
+                break;
+
+            case "number":
+                const number = event.target.value;
+                this.setState(Object.assign(this.state.formData.address, {number: number}));
+                break;
+
+            case "lat":
+                const lat = event.target.value;
+                this.setState(Object.assign(this.state.formData.address.geolocation, {lat: lat}));
+                break;
+
+            case "phone":
+                const phone = event.target.value;
+                this.setState(Object.assign(this.state.formData, {phone: phone}));
                 break;
 
             default:
@@ -196,28 +285,19 @@ class Register extends Component {
         }
     };
 
-    handleChangeDate = (newValue) => {
-        console.log(newValue)
-        this.setState(Object.assign(this.state.formData, {selectedDate: newValue}));
+    fetchUserData = async ()=>{
+        const res = await UserService.fetchUsers();
+        if (res.status === 200){
+            this.setState({
+                userData:res.data
+            })
+        }
     }
-
 
     async componentDidMount() {
-        await this.fetchCategoryForSelect();
-        await this.fetchUsernameForSelect();
+        await this.fetchUserData();
+        console.log("data : ",this.state.userData)
     }
-
-    rows = [
-        { id: 1, lastName: 'Snow', firstName: 'Jon', age: 35 },
-        { id: 2, lastName: 'Lannister', firstName: 'Cersei', age: 42 },
-        { id: 3, lastName: 'Lannister', firstName: 'Jaime', age: 45 },
-        { id: 4, lastName: 'Stark', firstName: 'Arya', age: 16 },
-        { id: 5, lastName: 'Targaryen', firstName: 'Daenerys', age: null },
-        { id: 6, lastName: 'Melisandre', firstName: null, age: 150 },
-        { id: 7, lastName: 'Clifford', firstName: 'Ferrara', age: 44 },
-        { id: 8, lastName: 'Frances', firstName: 'Rossini', age: 36 },
-        { id: 9, lastName: 'Roxie', firstName: 'Harvey', age: 65 },
-    ];
 
     render() {
         const {classes} = this.props;
@@ -240,8 +320,8 @@ class Register extends Component {
                                     <TextValidator
                                         label="Firste Name"
                                         onChange={this.handleChange}
-                                        name="firstName"
-                                        value={this.state.formData.title}
+                                        name="firstname"
+                                        value={this.state.formData.name.firstname}
                                         validators={["required"]}
                                         errorMessages={["This field is required"]}
                                         className="w-full"
@@ -251,8 +331,8 @@ class Register extends Component {
                                     <TextValidator
                                         label="Last Name"
                                         onChange={this.handleChange}
-                                        name="lastName"
-                                        value={this.state.formData.title}
+                                        name="lastname"
+                                        value={this.state.formData.name.lastname}
                                         validators={["required"]}
                                         errorMessages={["This field is required"]}
                                         className="w-full"
@@ -263,7 +343,7 @@ class Register extends Component {
                                         label="Email"
                                         onChange={this.handleChange}
                                         name="email"
-                                        value={this.state.formData.title}
+                                        value={this.state.formData.email}
                                         validators={["required"]}
                                         errorMessages={["This field is required"]}
                                         className="w-full"
@@ -273,8 +353,8 @@ class Register extends Component {
                                     <TextValidator
                                         label="User Name"
                                         onChange={this.handleChange}
-                                        name="userName"
-                                        value={this.state.formData.title}
+                                        name="username"
+                                        value={this.state.formData.username}
                                         validators={["required"]}
                                         errorMessages={["This field is required"]}
                                         className="w-full"
@@ -285,7 +365,7 @@ class Register extends Component {
                                         label="Password"
                                         onChange={this.handleChange}
                                         name="password"
-                                        value={this.state.formData.title}
+                                        value={this.state.formData.password}
                                         validators={["required"]}
                                         errorMessages={["This field is required"]}
                                         className="w-full"
@@ -295,22 +375,13 @@ class Register extends Component {
                                     <TextValidator
                                         label="Zip Code"
                                         onChange={this.handleChange}
-                                        name="zipCode"
-                                        value={this.state.formData.title}
+                                        name="zipcode"
+                                        value={this.state.formData.address.zipcode}
                                         validators={["required"]}
                                         errorMessages={["This field is required"]}
                                         className="w-full"
                                         style={{minWidth: '100%'}}
                                     />
-
-                                    {/*<CommonButton
-                                        size="large"
-                                        variant="contained"
-                                        label='Save'
-                                        type="submit"
-                                        className="text-white bg-blue-500 font-bold tracking-wide"
-                                        style={{backgroundColor: 'rgba(25, 118, 210, 0.95)', width: '100%'}}
-                                    />*/}
                                 </Grid>
 
                                 <Grid item container direction={'column'} xs={12} sm={10} md={5} gap={'15px'}>
@@ -319,7 +390,7 @@ class Register extends Component {
                                         label="Street"
                                         onChange={this.handleChange}
                                         name="street"
-                                        value={this.state.formData.title}
+                                        value={this.state.formData.address.street}
                                         validators={["required"]}
                                         errorMessages={["This field is required"]}
                                         className="w-full"
@@ -329,8 +400,8 @@ class Register extends Component {
                                     <TextValidator
                                         label="Long Value"
                                         onChange={this.handleChange}
-                                        name="logValue"
-                                        value={this.state.formData.title}
+                                        name="long"
+                                        value={this.state.formData.address.geolocation.long}
                                         validators={["required"]}
                                         errorMessages={["This field is required"]}
                                         className="w-full"
@@ -341,7 +412,7 @@ class Register extends Component {
                                         label="City"
                                         onChange={this.handleChange}
                                         name="city"
-                                        value={this.state.formData.title}
+                                        value={this.state.formData.address.city}
                                         validators={["required"]}
                                         errorMessages={["This field is required"]}
                                         className="w-full"
@@ -350,8 +421,8 @@ class Register extends Component {
                                     <TextValidator
                                         label="Street No"
                                         onChange={this.handleChange}
-                                        name="streetNo"
-                                        value={this.state.formData.title}
+                                        name="number"
+                                        value={this.state.formData.address.number}
                                         validators={["required"]}
                                         errorMessages={["This field is required"]}
                                         className="w-full"
@@ -360,8 +431,8 @@ class Register extends Component {
                                     <TextValidator
                                         label="Lat Value"
                                         onChange={this.handleChange}
-                                        name="title"
-                                        value={this.state.formData.title}
+                                        name="lat"
+                                        value={this.state.formData.address.geolocation.lat}
                                         validators={["required"]}
                                         errorMessages={["This field is required"]}
                                         className="w-full"
@@ -370,21 +441,13 @@ class Register extends Component {
                                     <TextValidator
                                         label="Mobile No"
                                         onChange={this.handleChange}
-                                        name="mobileNo"
-                                        value={this.state.formData.title}
+                                        name="phone"
+                                        value={this.state.formData.phone}
                                         validators={["required"]}
                                         errorMessages={["This field is required"]}
                                         className="w-full"
                                         style={{minWidth: '100%'}}
                                     />
-                                    {/*<CommonButton
-                                        size="large"
-                                        variant="contained"
-                                        label='Clear'
-                                        className="text-white bg-red-500 font-bold tracking-wide"
-                                        style={{backgroundColor: 'rgba(210,25,25,0.95)', width: '100%'}}
-                                        onClick={this.clearFields}
-                                    />*/}
                                 </Grid>
 
                                 <Grid container direction={'row'} xs={12} sm={10} md={5} gap={'15px'}
@@ -397,7 +460,8 @@ class Register extends Component {
                                         className="text-white bg-blue-500 font-bold tracking-wide"
                                         style={{backgroundColor: 'rgba(25, 118, 210, 0.95)', width: '100%'}}
                                     />
-                                </Grid><Grid container direction={'row'} xs={12} sm={10} md={5} gap={'15px'}
+                                </Grid>
+                                <Grid container direction={'row'} xs={12} sm={10} md={5} gap={'15px'}
                                       justifyContent={'center'}>
                                     <CommonButton
                                         size="large"
@@ -417,14 +481,13 @@ class Register extends Component {
                             xs={12}
                             gap="5px"
                             className="rounded-lg p-5 shadow-[0_3px_10px_rgb(0,0,0,0.2)] mb-16 py-10"
-                            style={{height: "700px"}}
+                            style={{height: "750px"}}
                         >
                             <CommonDataTable
                                 columns={this.state.columns}
-                                rows={this.rows}
+                                rows={this.state.userData}
                                 rowsPerPageOptions={10}
                                 pageSize={10}
-                                // getRowId={row=>row.driverId}
                                 // checkboxSelection={true}
                             />
                         </Grid>

@@ -1,17 +1,18 @@
-import NavBar from "../component/common/NavBar";
-
 import {Route, Routes} from "react-router-dom";
-import Dashboard from "../pages/Dashboard";
 import Product from "../pages/Product";
-import Cart from "../pages/Cart";
 import LoginAdmin from "../pages/session/Login";
+import Dashboard from "../pages/Dashboard";
+import Cart from "../pages/Cart";
 import Register from "../pages/Register";
+import NavBar from "../component/common/NavBar";
 
 function App() {
     return (<>
             <NavBar/>
             <Routes>
-                <Route path="/" element={<LoginAdmin/>}/>
+                <Route exact path="/" element={<LoginAdmin/>}/>
+
+                {/*<Route exact path="/" element={<LoginAdmin/>}/>*/}
                 <Route path="/dashboard" element={<Dashboard/>}/>
                 <Route path="/product" element={<Product/>}/>
                 <Route path="/cart" element={<Cart/>}/>
