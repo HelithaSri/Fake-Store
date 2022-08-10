@@ -39,8 +39,9 @@ class Widget extends Component {
             </Typography>
           </Link>
         </div>
-        <div className="flex flex-col justify-end">
-          <PeopleIcon className="p-1 bg-red-400 bg-opacity-50 rounded" />
+        <div className="flex flex-col justify-end p-2">
+          {/*<PeopleIcon className="p-1 bg-red-400 bg-opacity-50 rounded" />*/}
+          <div className={`p-2 bg-opacity-50 rounded-md ${this.props.color}`}>{this.props.icon}</div>
         </div>
       </div>
     );

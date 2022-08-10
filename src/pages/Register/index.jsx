@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Grid, MenuItem} from "@mui/material";
+import {Grid, MenuItem, Tooltip} from "@mui/material";
 import Typography from "@mui/material/Typography";
 import {TextValidator, ValidatorForm} from "react-material-ui-form-validator";
 import CommonButton from "../../component/common/Button";
@@ -10,6 +10,8 @@ import ProductService from "../../service/ProductService";
 import UserService from "../../service/UserService";
 import CartService from "../../service/CartService";
 import CommonDataTable from "../../component/common/Table";
+import IconButton from "@mui/material/IconButton";
+import DeleteIcon from '@mui/icons-material/Delete';
 
 class Register extends Component {
 
@@ -44,7 +46,7 @@ class Register extends Component {
                 {
                     field: "firstName",
                     headerName: "First Name",
-                    width: 175,
+                    width: 150,
                     renderCell:(params)=>{
                         return(
                             <>
@@ -56,7 +58,7 @@ class Register extends Component {
                 {
                     field: "lastName",
                     headerName: "Last Name",
-                    width: 175,
+                    width: 150,
                     renderCell:(params)=>{
                         return(
                             <>
@@ -99,7 +101,7 @@ class Register extends Component {
                 {
                     field: "city",
                     headerName: "City",
-                    width: 150,
+                    width: 125,
                     renderCell:(params) => {
                         return(
                             <>
@@ -147,7 +149,7 @@ class Register extends Component {
                 {
                     field: "latValue",
                     headerName: "Lat Value",
-                    width: 125,
+                    width: 120,
                     renderCell:(params) => {
                         return(
                             <>
@@ -159,11 +161,29 @@ class Register extends Component {
                 {
                     field: "longValue",
                     headerName: "Long Value",
-                    width: 125,
+                    width: 120,
                     renderCell:(params) => {
                         return(
                             <>
                                 <span>{params.row.address.geolocation.long}</span>
+                            </>
+                        )
+                    }
+                },
+                {
+                    field: "action",
+                    headerName: "Action",
+                    width: 75,
+                    renderCell: (params) => {
+                        return (
+                            <>
+                                <Tooltip title="Delete">
+                                    <IconButton className={'bg-red-100 mr-2'} onClick={async () => {
+                                        await this.deleteUser(params.row.id);
+                                    }}>
+                                        <DeleteIcon className={'text-red-500'}/>
+                                    </IconButton>
+                                </Tooltip>
                             </>
                         )
                     }
@@ -200,13 +220,26 @@ class Register extends Component {
         })
     }
 
+    deleteUser = async (id) =>{
+        const res = UserService.deleteUsers(id);
+        if (res.status===200){
+            this.setState({
+                alert: true, message: 'User Deleted!', severity: 'success'
+            })
+        }else {
+            this.setState({
+                alert: true, message: 'User Delete Unsuccessful!', severity: 'error'
+            })
+        }
+    }
+
     handleSubmit = async () => {
         let formDate = this.state.formData
-        let res = await CartService.addCart(formDate)
+        let res = await UserService.addUsers(formDate)
 
         if (res.status === 200) {
             this.setState({
-                alert: true, message: 'Cart Saved!', severity: 'success'
+                alert: true, message: 'User Saved!', severity: 'success'
             })
             this.clearFields();
         } else {
@@ -287,6 +320,8 @@ class Register extends Component {
 
     fetchUserData = async ()=>{
         const res = await UserService.fetchUsers();
+        /*let count = Object.keys(res.data).length;
+        console.log("count",count)*/
         if (res.status === 200){
             this.setState({
                 userData:res.data
