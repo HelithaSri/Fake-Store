@@ -5,6 +5,7 @@ import { styleSheet } from "./style";
 import { withStyles } from "@mui/styles";
 import { Link } from "react-router-dom";
 import CommonButton from "../../../component/common/Button";
+import localStorageService from "../../../service/localStorageService";
 
 class LoginAdmin extends Component {
   constructor(props) {
@@ -20,6 +21,8 @@ class LoginAdmin extends Component {
   handleSubmit = async () => {
     console.log("Hi handle");
     console.log(this.state.formData);
+    // localStorage.setItem("user",this.state.userName)
+    localStorageService.setItem("user",this.state.userName)
   };
 
   handleChange = (event) => {
@@ -90,7 +93,7 @@ class LoginAdmin extends Component {
                   label="User Name"
                   onChange={this.handleChange}
                   name="userName"
-                  value={this.state.formData.driverId}
+                  value={this.state.formData.userName}
                   validators={["required"]}
                   errorMessages={["This field is required"]}
                   className={[classes.textField, "w-full text-red-500"]}
@@ -105,7 +108,7 @@ class LoginAdmin extends Component {
                   type={"password"}
                   className={[classes.textField, "w-full"]}
                 />
-                <Link to="dashboard">
+                {/*<Link to="dashboard">*/}
                   <CommonButton
                     size="large"
                     variant="contained"
@@ -116,7 +119,7 @@ class LoginAdmin extends Component {
                     }}
                     className="text-white w-full bg-blue-500 font-bold tracking-wide"
                   />
-                </Link>
+                {/*</Link>*/}
 
                 <Typography variant="p" className={'text-white'}>
                   You are not a member? <Link to={'/register'} className={'font-semibold'}> Register Now</Link>

@@ -8,13 +8,14 @@ import {withStyles} from "@mui/styles";
 import {styleSheet} from "./style";
 import CommonButton from "../Button";
 import {Link} from "react-router-dom";
+import localStorageService from "../../../service/localStorageService";
 
 class NavBar extends Component {
     constructor(props) {
         super(props);
         this.state = {
             open: false, value: 0,
-            user:'Unknown'
+            user:localStorageService.getItem('user') || ""
         };
     }
 
