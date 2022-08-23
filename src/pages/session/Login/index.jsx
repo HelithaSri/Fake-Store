@@ -39,7 +39,7 @@ class LoginAdmin extends Component {
             // console.log(decoded)
             // window.location.replace("http://www.w3schools.com");
             this.props.navigate('/dashboard')
-                window.location.reload();
+            // window.location.reload();
         } else {
 
             this.setState({
@@ -86,7 +86,7 @@ class LoginAdmin extends Component {
     async componentDidMount() {
         const regNumber = this.props.params
         // console.log('http://localhost:8080/backend/'+this.state.vehicleObj.imgs[0].path))
-        console.log("details",regNumber)
+        console.log("details", regNumber)
     }
 
     checkValidity() {
