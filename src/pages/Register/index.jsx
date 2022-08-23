@@ -221,7 +221,7 @@ class Register extends Component {
     }
 
     deleteUser = async (id) =>{
-        const res = UserService.deleteUsers(id);
+        const res = await UserService.deleteUsers(id);
         if (res.status===200){
             this.setState({
                 alert: true, message: 'User Deleted!', severity: 'success'
@@ -320,6 +320,7 @@ class Register extends Component {
 
     fetchUserData = async ()=>{
         const res = await UserService.fetchUsers();
+        console.log(res)
         /*let count = Object.keys(res.data).length;
         console.log("count",count)*/
         if (res.status === 200){

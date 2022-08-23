@@ -14,6 +14,7 @@ class NavBar extends Component {
         super(props);
         this.state = {
             open: false, value: 0,
+            user:'Unknown'
         };
     }
 
@@ -43,13 +44,14 @@ class NavBar extends Component {
                     <Tab label="Cart" component={Link} to={'/cart'} sx={{color: '#eceaea'}}/>
                 </Tabs>
                 <div className="flex w-1/12 justify-end gap-3">
-                    <CommonButton
+                    {/*<CommonButton
                         size="large"
                         variant="outlined"
                         label="Login"
                         className="text-white border-white hover:bg-white hover:text-black"
                         onClick={() => this.setState({open: true})}
-                    />
+                    />*/}
+                    <Typography variant={"span"} className={'text-white font-semibold '}>{this.state.user}</Typography>
                 </div>
             </nav>
             {/* <DialogBox title={"Login"} divider open={this.setState}></DialogBox> */}
